@@ -1,10 +1,10 @@
-package com.yauhenl.thegame.game;
+package com.yauhenl.thegame.objects;
 
 public class Bloop extends GameObject {
     private Integer size;
 
-    public Bloop(Integer x, Integer y, Integer size) {
-        super(x, y);
+    public Bloop(Integer id, Integer x, Integer y, Integer size) {
+        super(id, x, y);
         this.size = size;
     }
 

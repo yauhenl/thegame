@@ -1,12 +1,22 @@
-package com.yauhenl.thegame.game;
+package com.yauhenl.thegame.objects;
 
 public abstract class GameObject {
+    private Integer id;
     private Integer x;
     private Integer y;
 
-    public GameObject(Integer x, Integer y) {
+    public GameObject(Integer id, Integer x, Integer y) {
+        this.id = id;
         this.x = x;
         this.y = y;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public Integer getX() {
