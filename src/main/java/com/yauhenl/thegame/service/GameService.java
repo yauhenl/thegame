@@ -4,9 +4,7 @@ import com.yauhenl.thegame.objects.Data;
 import com.yauhenl.thegame.objects.World;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TreeSet;
+import java.util.*;
 
 @Service
 public class GameService {
@@ -16,10 +14,14 @@ public class GameService {
         return worlds.get(id);
     }
 
+    public Collection<World> findAll() {
+        return worlds.values();
+    }
+
     public World createWorld() {
         World newWorld = new World();
         newWorld.init();
-        Integer id = worlds.size() > 0 ? new TreeSet<>(worlds.keySet()).last() : 0;
+        Integer id = worlds.size() > 0 ? new TreeSet<>(worlds.keySet()).last() + 1 : 0;
         newWorld.setId(id);
         worlds.put(id, newWorld);
         return newWorld;

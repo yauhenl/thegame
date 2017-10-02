@@ -11,14 +11,10 @@ public class World {
 
     public void init() {
         width = 1000;
-        height = 1000;
+        height = 600;
         Random r = new Random();
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 50; i++) {
             addFood(i, r.nextInt(width), r.nextInt(height));
-        }
-
-        for (int i = 0; i < 100; i++) {
-            addBloop(i, r.nextInt(width), r.nextInt(height), 10);
         }
     }
 
