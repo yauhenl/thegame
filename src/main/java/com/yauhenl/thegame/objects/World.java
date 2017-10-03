@@ -4,15 +4,13 @@ import java.util.*;
 
 public class World {
     private Integer id;
-    private Integer height;
-    private Integer width;
+    private Integer width = 1000;
+    private Integer height = 600;
     private Map<Integer, Food> food = new HashMap<>();
     private Map<Integer, Bloop> bloops = new HashMap<>();
+    private Random r = new Random();
 
     public void init() {
-        width = 1000;
-        height = 600;
-        Random r = new Random();
         for (int i = 0; i < 50; i++) {
             addFood(i, r.nextInt(width), r.nextInt(height));
         }
@@ -30,8 +28,11 @@ public class World {
         food.put(id, new Food(id, x, y));
     }
 
-    public void addBloop(Integer id, Integer x, Integer y, Integer size) {
-        bloops.put(id, new Bloop(id, x, y, size));
+    public Bloop addBloop() {
+        Integer id = bloops.size() > 0 ? new TreeSet<>(bloops.keySet()).last() + 1 : 0;
+        Bloop result = new Bloop(id, r.nextInt(width), r.nextInt(height), 10);
+        bloops.put(id, result);
+        return result;
     }
 
     public void update() {

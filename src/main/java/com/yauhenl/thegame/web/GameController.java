@@ -1,6 +1,8 @@
 package com.yauhenl.thegame.web;
 
+import com.yauhenl.thegame.objects.Bloop;
 import com.yauhenl.thegame.objects.Data;
+import com.yauhenl.thegame.objects.World;
 import com.yauhenl.thegame.service.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,8 +17,9 @@ public class GameController {
 
     @GetMapping("/game")
     public String openWorld(@RequestParam Integer id, Model model) {
+        Bloop bloop = gameService.getById(id).addBloop();
         model.addAttribute("worldId", id);
-        model.addAttribute("bloopId", 0);
+        model.addAttribute("bloopId", bloop.getId());
         return "game";
     }
 

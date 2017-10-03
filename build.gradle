@@ -12,4 +12,5 @@ dependencies {
     compile 'org.springframework.boot:spring-boot-devtools'
     compile 'org.springframework.boot:spring-boot-starter-mustache'
     compile 'org.springframework.boot:spring-boot-starter-actuator'
+    compile 'org.processing:core:3.2.3'
 }
