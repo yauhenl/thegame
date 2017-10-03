@@ -2,6 +2,7 @@ package com.yauhenl.thegame.service;
 
 import com.yauhenl.thegame.objects.Data;
 import com.yauhenl.thegame.objects.World;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -29,5 +30,10 @@ public class GameService {
 
     public Data getData(Integer worldId, Integer bloopId) {
         return getById(worldId).getData(bloopId);
+    }
+
+    @Scheduled(fixedDelay = 100)
+    public void update() {
+        worlds.values().forEach(World::update);
     }
 }

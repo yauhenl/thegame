@@ -1,5 +1,7 @@
 package com.yauhenl.thegame.objects;
 
+import org.springframework.scheduling.annotation.Scheduled;
+
 import java.util.*;
 
 public class World {
@@ -24,6 +26,11 @@ public class World {
         this.id = id;
     }
 
+    public void addFood() {
+        Integer id = food.size() > 0 ? new TreeSet<>(food.keySet()).last() + 1 : 0;
+        addFood(id, r.nextInt(width), r.nextInt(height));
+    }
+
     public void addFood(Integer id, Integer x, Integer y) {
         food.put(id, new Food(id, x, y));
     }
@@ -36,7 +43,7 @@ public class World {
     }
 
     public void update() {
-
+        addFood();
     }
 
     public Data getData(Integer bloopId) {
