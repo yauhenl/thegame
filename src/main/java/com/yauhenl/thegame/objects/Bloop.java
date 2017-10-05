@@ -2,13 +2,13 @@ package com.yauhenl.thegame.objects;
 
 import processing.core.PVector;
 
-import java.util.List;
+import java.util.Map;
 
 public class Bloop extends GameObject {
-    private static final PVector leftForce = new PVector(0.3f, 0);
-    private static final PVector rightForce = new PVector(-0.3f, 0);
-    private static final PVector upForce = new PVector(0, 0.3f);
-    private static final PVector downForce = new PVector(0, -0.3f);
+    private static final PVector leftForce = new PVector(0.2f, 0);
+    private static final PVector rightForce = new PVector(-0.2f, 0);
+    private static final PVector upForce = new PVector(0, 0.2f);
+    private static final PVector downForce = new PVector(0, -0.2f);
 
     private PVector velocity = new PVector(0, 0);
     private PVector acceleration = new PVector(0.0f, 0.0f);
@@ -17,12 +17,13 @@ public class Bloop extends GameObject {
         super(id, location, size);
     }
 
-    public void update(List<Food> foods) {
-        for (int i = 0; i < foods.size(); i++) {
-            Food it = foods.get(i);
+    public void update(Map<Integer, Food> foods) {
+        for (Integer id : foods.keySet()) {
+            Food it = foods.get(id);
             float dist = PVector.dist(getLocation(), it.getLocation());
             if (dist < getSize() / 2) {
-                foods.remove(it);
+                foods.remove(it.getId());
+                setSize(getSize() + 1);
             }
         }
     }

@@ -47,6 +47,7 @@ public class GameController {
             Bloop bloop = world.getBloopById(bloopId);
             if (bloop != null) {
                 bloop.move(new PVector(x, y));
+                bloop.update(world.getFood());
             }
         }
     }

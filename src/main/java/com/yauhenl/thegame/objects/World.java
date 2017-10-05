@@ -5,13 +5,14 @@ import processing.core.PVector;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class World {
     private Integer id;
     private Integer width = 1000;
     private Integer height = 600;
-    private Map<Integer, Food> food = new HashMap<>();
-    private Map<Integer, Bloop> bloops = new HashMap<>();
+    private Map<Integer, Food> food = new ConcurrentHashMap<>();
+    private Map<Integer, Bloop> bloops = new ConcurrentHashMap<>();
     private Integer lastFoodId = 0;
     private Integer lastBloopId = 0;
     private Random r = new Random();
@@ -38,6 +39,10 @@ public class World {
         return height;
     }
 
+    public Map<Integer, Food> getFood() {
+        return food;
+    }
+
     public void addFood() {
         lastFoodId++;
         food.put(lastFoodId, new Food(lastFoodId, new PVector(r.nextInt(width), r.nextInt(height)), 8));
@@ -51,7 +56,7 @@ public class World {
     }
 
     public void update() {
-//        addFood();
+        addFood();
     }
 
     public Data getData(Integer bloopId) {
