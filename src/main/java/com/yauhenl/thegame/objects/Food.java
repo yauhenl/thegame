@@ -1,7 +1,10 @@
 package com.yauhenl.thegame.objects;
 
+import processing.core.PVector;
+
 public class Food extends GameObject {
-    public Food(Integer id, Integer x, Integer y) {
-        super(id, x, y);
+
+    public Food(Integer id, PVector location, Integer size) {
+        super(id, location, size);
     }
 }

@@ -1,8 +1,10 @@
 package com.yauhenl.thegame.objects;
 
-import org.springframework.scheduling.annotation.Scheduled;
+import processing.core.PVector;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
 
 public class World {
     private Integer id;
@@ -10,11 +12,13 @@ public class World {
     private Integer height = 600;
     private Map<Integer, Food> food = new HashMap<>();
     private Map<Integer, Bloop> bloops = new HashMap<>();
+    private Integer lastFoodId = 0;
+    private Integer lastBloopId = 0;
     private Random r = new Random();
 
     public void init() {
         for (int i = 0; i < 50; i++) {
-            addFood(i, r.nextInt(width), r.nextInt(height));
+            addFood();
         }
     }
 
@@ -26,24 +30,28 @@ public class World {
         this.id = id;
     }
 
-    public void addFood() {
-        Integer id = food.size() > 0 ? new TreeSet<>(food.keySet()).last() + 1 : 0;
-        addFood(id, r.nextInt(width), r.nextInt(height));
+    public Integer getWidth() {
+        return width;
     }
 
-    public void addFood(Integer id, Integer x, Integer y) {
-        food.put(id, new Food(id, x, y));
+    public Integer getHeight() {
+        return height;
+    }
+
+    public void addFood() {
+        lastFoodId++;
+        food.put(lastFoodId, new Food(lastFoodId, new PVector(r.nextInt(width), r.nextInt(height)), 8));
     }
 
     public Bloop addBloop() {
-        Integer id = bloops.size() > 0 ? new TreeSet<>(bloops.keySet()).last() + 1 : 0;
-        Bloop result = new Bloop(id, r.nextInt(width), r.nextInt(height), 10);
-        bloops.put(id, result);
+        lastBloopId++;
+        Bloop result = new Bloop(lastBloopId, new PVector(r.nextInt(width), r.nextInt(height)), 35);
+        bloops.put(lastBloopId, result);
         return result;
     }
 
     public void update() {
-        addFood();
+//        addFood();
     }
 
     public Data getData(Integer bloopId) {
@@ -51,5 +59,9 @@ public class World {
         result.setBloops(bloops);
         result.setFood(food);
         return result;
+    }
+
+    public Bloop getBloopById(Integer id) {
+        return bloops.get(id);
     }
 }

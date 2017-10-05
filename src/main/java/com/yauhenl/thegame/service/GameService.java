@@ -10,6 +10,7 @@ import java.util.*;
 @Service
 public class GameService {
     private Map<Integer, World> worlds = new HashMap<>();
+    private Integer lastWorldId = 0;
 
     public World getById(Integer id) {
         return worlds.get(id);
@@ -22,17 +23,21 @@ public class GameService {
     public World createWorld() {
         World newWorld = new World();
         newWorld.init();
-        Integer id = worlds.size() > 0 ? new TreeSet<>(worlds.keySet()).last() + 1 : 0;
-        newWorld.setId(id);
-        worlds.put(id, newWorld);
+        lastWorldId++;
+        newWorld.setId(lastWorldId);
+        worlds.put(lastWorldId, newWorld);
         return newWorld;
     }
 
     public Data getData(Integer worldId, Integer bloopId) {
-        return getById(worldId).getData(bloopId);
+        World world = getById(worldId);
+        if (world != null) {
+            return world.getData(bloopId);
+        }
+        return null;
     }
 
-    @Scheduled(fixedDelay = 100)
+    @Scheduled(fixedDelay = 1000)
     public void update() {
         worlds.values().forEach(World::update);
     }

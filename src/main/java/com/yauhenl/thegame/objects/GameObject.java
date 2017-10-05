@@ -1,14 +1,16 @@
 package com.yauhenl.thegame.objects;
 
+import processing.core.PVector;
+
 public class GameObject {
     private Integer id;
-    private Integer x;
-    private Integer y;
+    private PVector location;
+    private Integer size;
 
-    public GameObject(Integer id, Integer x, Integer y) {
+    public GameObject(Integer id, PVector location, Integer size) {
         this.id = id;
-        this.x = x;
-        this.y = y;
+        this.location = location;
+        this.size = size;
     }
 
     public Integer getId() {
@@ -19,19 +21,19 @@ public class GameObject {
         this.id = id;
     }
 
-    public Integer getX() {
-        return x;
+    public PVector getLocation() {
+        return location;
     }
 
-    public void setX(Integer x) {
-        this.x = x;
+    public void setLocation(PVector location) {
+        this.location = location;
     }
 
-    public Integer getY() {
-        return y;
+    public Integer getSize() {
+        return size;
     }
 
-    public void setY(Integer y) {
-        this.y = y;
+    public void setSize(Integer size) {
+        this.size = size;
     }
 }

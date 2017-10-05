@@ -1,6 +1,8 @@
 function setup() {
     createCanvas(1000, 600);
-    background(33);
+    noStroke();
+    fill(255, 153);
+    background(51);
 }
 
 function draw() {
@@ -8,19 +10,17 @@ function draw() {
         $.each(json.food, function () {
             noStroke();
             fill(200, 50, 0);
-            rect(this.x, this.y, 8, 8);
+            ellipse(this.location.x, this.location.y, this.size, this.size);
         });
 
         $.each(json.bloops, function () {
             noStroke();
             fill(map(size, 0, 1000, 33, 255), 200);
-            ellipse(this.x, this.y, this.size, this.size);
+            ellipse(this.location.x, this.location.y, this.size, this.size);
             fill(255);
-            text(this.id, this.x, this.y);
+            text(this.id, this.location.x, this.location.y);
         });
     });
-}
 
-function mouseMoved() {
     $.post("/move", {worldId: worldId, bloopId: bloopId, x: mouseX, y: mouseY});
 }
