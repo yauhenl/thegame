@@ -20,3 +20,7 @@ function draw() {
         });
     });
 }
+
+function mouseMoved() {
+    $.post("/move", {worldId: worldId, bloopId: bloopId, x: mouseX, y: mouseY});
+}

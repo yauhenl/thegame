@@ -1,6 +1,6 @@
 package com.yauhenl.thegame.objects;
 
-public abstract class GameObject {
+public class GameObject {
     private Integer id;
     private Integer x;
     private Integer y;
