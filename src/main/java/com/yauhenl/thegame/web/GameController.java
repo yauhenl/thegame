@@ -1,19 +1,22 @@
 package com.yauhenl.thegame.web;
 
-import com.yauhenl.thegame.objects.Bloop;
-import com.yauhenl.thegame.objects.Data;
-import com.yauhenl.thegame.objects.World;
+import com.yauhenl.thegame.objects.*;
 import com.yauhenl.thegame.service.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import processing.core.PVector;
+import processing.data.JSONObject;
 
 import javax.servlet.http.HttpSession;
 
 @Controller
+@EnableWebSocketMessageBroker
 public class GameController {
 
     private static final String worldIdAttribute = "worldId";
@@ -22,53 +25,50 @@ public class GameController {
     @Autowired
     private GameService gameService;
 
+    @Autowired
+    private UserWS userWS;
+
     @GetMapping("/game")
     public String openWorld(@RequestParam Integer id, Model model, HttpSession session) {
         World world = gameService.getById(id);
+        Bloop bloop;
         Integer worldInSession = (Integer) session.getAttribute(worldIdAttribute);
         if (world != null) {
             if (worldInSession != null && id.equals(worldInSession)) {
-                model.addAttribute(worldIdAttribute, id);
                 Integer bloopId = (Integer) session.getAttribute(bloopIdAttribute);
-                if (world.getBloops().containsKey(bloopId)) {
-                    model.addAttribute(bloopIdAttribute, bloopId);
+                if (bloopId == null) {
+                    bloop = world.addBloop();
                 } else {
-                    Bloop bloop = world.addBloop();
-                    model.addAttribute(bloopIdAttribute, bloop.getId());
-                    session.setAttribute(bloopIdAttribute, bloop.getId());
+                    bloop = world.getBloops().get(bloopId);
                 }
-                return "game";
             } else {
-                Bloop bloop = world.addBloop();
-                model.addAttribute(worldIdAttribute, id);
-                model.addAttribute(bloopIdAttribute, bloop.getId());
-                session.setAttribute(worldIdAttribute, world.getId());
-                session.setAttribute(bloopIdAttribute, bloop.getId());
-                return "game";
+                bloop = world.addBloop();
             }
+            model.addAttribute(worldIdAttribute, world.getId());
+            model.addAttribute(bloopIdAttribute, bloop.getId());
+            session.setAttribute(worldIdAttribute, world.getId());
+            session.setAttribute(bloopIdAttribute, bloop.getId());
+            return "game";
         } else {
             return "redirect:/";
         }
     }
 
-    @GetMapping("/getData/{worldId}/{bloopId}")
-    @ResponseBody
-    public Data getData(@PathVariable Integer worldId, @PathVariable Integer bloopId) {
-        return gameService.getData(worldId, bloopId);
-    }
-
-    @PostMapping(value = "/move")
-    @ResponseStatus(value = HttpStatus.OK)
-    public void move(@RequestParam Integer worldId,
-                     @RequestParam Integer bloopId,
-                     @RequestParam Integer x,
-                     @RequestParam Integer y) {
+    @MessageMapping("/move")
+    @SendTo("/topic/data")
+    public Data update(String message) {
+        JSONObject json = JSONObject.parse(message);
+        Integer worldId = json.getInt(worldIdAttribute);
+        Integer bloopId = json.getInt(bloopIdAttribute);
+        userWS.setWorldId(worldId);
+        userWS.setBloopId(bloopId);
         World world = gameService.getById(worldId);
         if (world != null) {
             Bloop bloop = world.getBloopById(bloopId);
             if (bloop != null) {
-                bloop.move(new PVector(x, y));
+                bloop.move(new PVector(json.getInt("x"), json.getInt("y")));
             }
         }
+        return gameService.getData(userWS.getWorldId(), userWS.getBloopId());
     }
 }

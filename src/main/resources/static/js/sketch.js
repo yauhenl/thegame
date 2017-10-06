@@ -1,11 +1,23 @@
+var stompClient = null;
+var json = null;
+
 function setup() {
     createCanvas(1000, 600);
     noStroke();
     smooth();
+
+    var socket = new SockJS('/thegame-websocket');
+    stompClient = Stomp.over(socket);
+    stompClient.connect({}, function (frame) {
+        console.log('Connected: ' + frame);
+        stompClient.subscribe('/topic/data', function (data) {
+            json = JSON.parse(data.body);
+        });
+    });
 }
 
 function draw() {
-    $.getJSON("/getData/" + worldId + "/" + bloopId, function (json) {
+    if (json != null) {
         background(51);
         $.each(json.food, function () {
             fill(200, 50, 0);
@@ -16,7 +28,16 @@ function draw() {
             fill(255);
             ellipse(this.location.x, this.location.y, this.size, this.size);
         });
-    });
+    }
 
-    $.post("/move", {worldId: worldId, bloopId: bloopId, x: mouseX, y: mouseY});
+    // $.post("/move", {worldId: worldId, bloopId: bloopId, x: mouseX, y: mouseY});
+
+    if (stompClient.connected) {
+        stompClient.send("/thegame/move", {}, JSON.stringify({
+            worldId: worldId,
+            bloopId: bloopId,
+            x: mouseX,
+            y: mouseY
+        }));
+    }
 }
