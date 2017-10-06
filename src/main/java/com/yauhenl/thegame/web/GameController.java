@@ -11,20 +11,41 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import processing.core.PVector;
 
+import javax.servlet.http.HttpSession;
+
 @Controller
 public class GameController {
+
+    private static final String worldIdAttribute = "worldId";
+    private static final String bloopIdAttribute = "bloopId";
 
     @Autowired
     private GameService gameService;
 
     @GetMapping("/game")
-    public String openWorld(@RequestParam Integer id, Model model) {
+    public String openWorld(@RequestParam Integer id, Model model, HttpSession session) {
         World world = gameService.getById(id);
+        Integer worldInSession = (Integer) session.getAttribute(worldIdAttribute);
         if (world != null) {
-            Bloop bloop = world.addBloop();
-            model.addAttribute("worldId", id);
-            model.addAttribute("bloopId", bloop.getId());
-            return "game";
+            if (worldInSession != null && id.equals(worldInSession)) {
+                model.addAttribute(worldIdAttribute, id);
+                Integer bloopId = (Integer) session.getAttribute(bloopIdAttribute);
+                if (world.getBloops().containsKey(bloopId)) {
+                    model.addAttribute(bloopIdAttribute, bloopId);
+                } else {
+                    Bloop bloop = world.addBloop();
+                    model.addAttribute(bloopIdAttribute, bloop.getId());
+                    session.setAttribute(bloopIdAttribute, bloop.getId());
+                }
+                return "game";
+            } else {
+                Bloop bloop = world.addBloop();
+                model.addAttribute(worldIdAttribute, id);
+                model.addAttribute(bloopIdAttribute, bloop.getId());
+                session.setAttribute(worldIdAttribute, world.getId());
+                session.setAttribute(bloopIdAttribute, bloop.getId());
+                return "game";
+            }
         } else {
             return "redirect:/";
         }
