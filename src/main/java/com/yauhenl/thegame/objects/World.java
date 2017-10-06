@@ -43,6 +43,10 @@ public class World {
         return food;
     }
 
+    public Map<Integer, Bloop> getBloops() {
+        return bloops;
+    }
+
     public void addFood() {
         lastFoodId++;
         food.put(lastFoodId, new Food(lastFoodId, new PVector(r.nextInt(width), r.nextInt(height)), 8));
@@ -56,7 +60,15 @@ public class World {
     }
 
     public void update() {
-        addFood();
+        for (Integer bloopId : bloops.keySet()) {
+            Bloop it = bloops.get(bloopId);
+            if (it != null) {
+                it.update(food, bloops);
+            }
+        }
+        if (r.nextFloat() < 0.05f) {
+            addFood();
+        }
     }
 
     public Data getData(Integer bloopId) {

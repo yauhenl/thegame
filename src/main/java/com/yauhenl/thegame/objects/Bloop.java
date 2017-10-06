@@ -17,15 +17,22 @@ public class Bloop extends GameObject {
         super(id, location, size);
     }
 
-    public void update(Map<Integer, Food> foods) {
-        for (Integer id : foods.keySet()) {
-            Food it = foods.get(id);
+    public void update(Map<Integer, Food> food, Map<Integer, Bloop> bloops) {
+        food.keySet().stream().map(food::get).forEach(it -> {
             float dist = PVector.dist(getLocation(), it.getLocation());
             if (dist < getSize() / 2) {
-                foods.remove(it.getId());
+                food.remove(it.getId());
                 setSize(getSize() + 1);
             }
-        }
+        });
+
+        bloops.keySet().stream().map(bloops::get).forEach(it -> {
+            float dist = PVector.dist(getLocation(), it.getLocation());
+            if (getSize() > it.getSize() && dist < (getSize() - it.getSize()) / 2) {
+                bloops.remove(it.getId());
+                setSize(getSize() + it.getSize());
+            }
+        });
     }
 
     private void applyForce(PVector force) {

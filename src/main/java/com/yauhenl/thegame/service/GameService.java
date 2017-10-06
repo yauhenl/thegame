@@ -37,7 +37,7 @@ public class GameService {
         return null;
     }
 
-    @Scheduled(fixedDelay = 1000)
+    @Scheduled(fixedDelay = 100)
     public void update() {
         worlds.values().forEach(World::update);
     }
