@@ -2,7 +2,7 @@ package com.yauhenl.thegame.objects;
 
 import processing.core.PVector;
 
-public class GameObject {
+public abstract class GameObject {
     private Integer id;
     private PVector location;
     private Integer size;

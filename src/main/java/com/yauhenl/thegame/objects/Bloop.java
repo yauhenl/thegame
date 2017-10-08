@@ -4,6 +4,9 @@ import processing.core.PVector;
 
 import java.util.Map;
 
+import static com.yauhenl.thegame.objects.World.screenHeight;
+import static com.yauhenl.thegame.objects.World.screenWidth;
+
 public class Bloop extends GameObject {
     private static final PVector leftForce = new PVector(0.2f, 0);
     private static final PVector rightForce = new PVector(-0.2f, 0);
@@ -15,6 +18,14 @@ public class Bloop extends GameObject {
 
     public Bloop(Integer id, PVector location, Integer size) {
         super(id, location, size);
+    }
+
+    public void setVelocity(PVector velocity) {
+        this.velocity = velocity;
+    }
+
+    public void setAcceleration(PVector acceleration) {
+        this.acceleration = acceleration;
     }
 
     public void update(Map<Integer, Food> food, Map<Integer, Bloop> bloops) {
@@ -41,11 +52,19 @@ public class Bloop extends GameObject {
     }
 
     public void move(PVector force) {
-        applyForce(force.x > getLocation().x ? leftForce : rightForce);
-        applyForce(force.y > getLocation().y ? upForce : downForce);
+        applyForce(force.x > screenWidth / 2 ? leftForce : rightForce);
+        applyForce(force.y > screenHeight / 2 ? upForce : downForce);
         velocity.add(acceleration);
         getLocation().add(velocity);
         acceleration.mult(0);
         velocity.mult(0.95f);
+    }
+
+    public Bloop copy() {
+        PVector loc = getLocation();
+        Bloop bloop = new Bloop(getId(), new PVector(loc.x, loc.y), getSize());
+        bloop.setVelocity(velocity);
+        bloop.setAcceleration(acceleration);
+        return bloop;
     }
 }

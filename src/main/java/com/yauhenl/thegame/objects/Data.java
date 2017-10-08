@@ -1,25 +1,19 @@
 package com.yauhenl.thegame.objects;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Data {
-    private Map<Integer, Food> food = new HashMap<>();
-    private Map<Integer, Bloop> bloops = new HashMap<>();
+    private List<Food> food = new ArrayList<>();
+    private List<Bloop> bloops = new ArrayList<>();
 
-    public Map<Integer, Food> getFood() {
+    public List<Food> getFood() {
         return food;
     }
 
-    public void setFood(Map<Integer, Food> food) {
-        this.food = food;
-    }
-
-    public Map<Integer, Bloop> getBloops() {
+    public List<Bloop> getBloops() {
         return bloops;
-    }
-
-    public void setBloops(Map<Integer, Bloop> bloops) {
-        this.bloops = bloops;
     }
 }

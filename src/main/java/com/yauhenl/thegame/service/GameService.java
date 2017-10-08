@@ -1,5 +1,6 @@
 package com.yauhenl.thegame.service;
 
+import com.yauhenl.thegame.objects.Bloop;
 import com.yauhenl.thegame.objects.Data;
 import com.yauhenl.thegame.objects.World;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -29,12 +30,8 @@ public class GameService {
         return newWorld;
     }
 
-    public Data getData(Integer worldId, Integer bloopId) {
-        World world = getById(worldId);
-        if (world != null) {
-            return world.getData(bloopId);
-        }
-        return null;
+    public Data getData(World world, Bloop bloop) {
+        return world.getData(bloop);
     }
 
     @Scheduled(fixedDelay = 100)
