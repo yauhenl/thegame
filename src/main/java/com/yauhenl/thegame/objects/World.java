@@ -91,12 +91,8 @@ public class World {
         });
         resultFood.forEach(it -> {
             PVector loc = it.getLocation();
-            if (loc.x > screenWidth / 2) {
-                loc.x = loc.x - minX;
-            } else {
-                loc.x = maxX - loc.x;
-            }
-            if (loc.y > screenHeight) loc.y = loc.y - minY;
+            loc.x = minX > 0 ? loc.x - minX : screenWidth - maxX + loc.x;
+            loc.y = minY > 0 ? loc.y - minY : screenHeight - maxY + loc.y;
         });
         return resultFood;
     }
@@ -116,8 +112,8 @@ public class World {
         }
         resultBloops.forEach(it -> {
             PVector loc = it.getLocation();
-            if (loc.x > screenWidth) loc.x = loc.x - minX;
-            if (loc.y > screenHeight) loc.y = loc.y - minY;
+            loc.x = minX > 0 ? loc.x - minX : screenWidth - maxX + loc.x;
+            loc.y = minY > 0 ? loc.y - minY : screenHeight - maxY + loc.y;
         });
         return resultBloops;
     }
