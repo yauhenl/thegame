@@ -13,10 +13,10 @@ public class World {
     private Integer lastBloopId = 0;
     private Random r = new Random();
 
-    public static final Integer worldWidth = 5000;
-    public static final Integer worldHeight = 3000;
-    public static final Integer screenWidth = 1000;
-    public static final Integer screenHeight = 600;
+    static final Integer worldWidth = 5000;
+    static final Integer worldHeight = 3000;
+    static final Integer screenWidth = 1000;
+    static final Integer screenHeight = 600;
 
     public void init() {
         for (int i = 0; i < 1000; i++) {
@@ -32,15 +32,11 @@ public class World {
         this.id = id;
     }
 
-    public Map<Integer, Food> getFood() {
-        return food;
-    }
-
     public Map<Integer, Bloop> getBloops() {
         return bloops;
     }
 
-    public void addFood() {
+    private void addFood() {
         lastFoodId++;
         food.put(lastFoodId, new Food(lastFoodId, new PVector(r.nextInt(worldWidth), r.nextInt(worldHeight)), 8));
     }

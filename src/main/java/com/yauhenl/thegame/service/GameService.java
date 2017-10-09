@@ -21,13 +21,12 @@ public class GameService {
         return worlds.values();
     }
 
-    public World createWorld() {
+    public void createWorld() {
         World newWorld = new World();
         newWorld.init();
         lastWorldId++;
         newWorld.setId(lastWorldId);
         worlds.put(lastWorldId, newWorld);
-        return newWorld;
     }
 
     public Data getData(World world, Bloop bloop) {

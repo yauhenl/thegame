@@ -1,6 +1,5 @@
 package com.yauhenl.thegame;
 
-import com.yauhenl.thegame.objects.World;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

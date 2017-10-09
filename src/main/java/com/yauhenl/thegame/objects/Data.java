@@ -1,9 +1,7 @@
 package com.yauhenl.thegame.objects;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class Data {
     private List<Food> food = new ArrayList<>();

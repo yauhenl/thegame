@@ -15,15 +15,15 @@ public class Bloop extends GameObject {
     private PVector velocity = new PVector(0, 0);
     private PVector acceleration = new PVector(0.0f, 0.0f);
 
-    public Bloop(Integer id, PVector location, Integer size) {
+    Bloop(Integer id, PVector location, Integer size) {
         super(id, location, size);
     }
 
-    public void setVelocity(PVector velocity) {
+    private void setVelocity(PVector velocity) {
         this.velocity = velocity;
     }
 
-    public void setAcceleration(PVector acceleration) {
+    private void setAcceleration(PVector acceleration) {
         this.acceleration = acceleration;
     }
 
@@ -47,7 +47,6 @@ public class Bloop extends GameObject {
 
     private void applyForce(PVector force) {
         PVector f = PVector.div(force, getSize() / 35);
-        System.out.println(f);
         acceleration.add(f);
     }
 
