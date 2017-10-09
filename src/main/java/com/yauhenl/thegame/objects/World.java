@@ -71,10 +71,6 @@ public class World {
         Float maxY = center.y + screenHeight / 2;
         Float minX = center.x - screenWidth / 2;
         Float minY = center.y - screenHeight / 2;
-//        if (maxX > worldWidth) maxX = worldWidth.floatValue();
-//        if (maxY > worldHeight) maxY = worldHeight.floatValue();
-//        if (minX < 0) minX = 0f;
-//        if (minY < 0) minY = 0f;
         result.getFood().addAll(selectFood(maxX, maxY, minX, minY));
         result.getBloops().addAll(selectBloops(bloop.getId(), maxX, maxY, minX, minY));
         return result;

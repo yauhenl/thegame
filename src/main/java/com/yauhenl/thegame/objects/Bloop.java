@@ -47,6 +47,7 @@ public class Bloop extends GameObject {
 
     private void applyForce(PVector force) {
         PVector f = PVector.div(force, getSize() / 35);
+        System.out.println(f);
         acceleration.add(f);
     }
 
