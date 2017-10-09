@@ -4,8 +4,7 @@ import processing.core.PVector;
 
 import java.util.Map;
 
-import static com.yauhenl.thegame.objects.World.screenHeight;
-import static com.yauhenl.thegame.objects.World.screenWidth;
+import static com.yauhenl.thegame.objects.World.*;
 
 public class Bloop extends GameObject {
     private static final PVector leftForce = new PVector(0.2f, 0);
@@ -58,6 +57,10 @@ public class Bloop extends GameObject {
         getLocation().add(velocity);
         acceleration.mult(0);
         velocity.mult(0.95f);
+        if (getLocation().x > worldWidth) getLocation().x = worldWidth;
+        if (getLocation().y > worldHeight) getLocation().y = worldHeight;
+        if (getLocation().x < 0) getLocation().x = 0;
+        if (getLocation().y < 0) getLocation().y = 0;
     }
 
     public Bloop copy() {

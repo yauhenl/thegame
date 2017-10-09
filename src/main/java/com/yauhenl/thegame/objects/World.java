@@ -4,18 +4,17 @@ import processing.core.PVector;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
 
 public class World {
     private Integer id;
-    private Integer width = 10000;
-    private Integer height = 10000;
     private Map<Integer, Food> food = new ConcurrentHashMap<>();
     private Map<Integer, Bloop> bloops = new ConcurrentHashMap<>();
     private Integer lastFoodId = 0;
     private Integer lastBloopId = 0;
     private Random r = new Random();
 
+    public static final Integer worldWidth = 5000;
+    public static final Integer worldHeight = 3000;
     public static final Integer screenWidth = 1000;
     public static final Integer screenHeight = 600;
 
@@ -33,14 +32,6 @@ public class World {
         this.id = id;
     }
 
-    public Integer getWidth() {
-        return width;
-    }
-
-    public Integer getHeight() {
-        return height;
-    }
-
     public Map<Integer, Food> getFood() {
         return food;
     }
@@ -51,12 +42,12 @@ public class World {
 
     public void addFood() {
         lastFoodId++;
-        food.put(lastFoodId, new Food(lastFoodId, new PVector(r.nextInt(width), r.nextInt(height)), 8));
+        food.put(lastFoodId, new Food(lastFoodId, new PVector(r.nextInt(worldWidth), r.nextInt(worldHeight)), 8));
     }
 
     public Bloop addBloop() {
         lastBloopId++;
-        Bloop result = new Bloop(lastBloopId, new PVector(r.nextInt(width), r.nextInt(height)), 35);
+        Bloop result = new Bloop(lastBloopId, new PVector(r.nextInt(worldWidth), r.nextInt(worldHeight)), 35);
         bloops.put(lastBloopId, result);
         return result;
     }
@@ -80,10 +71,10 @@ public class World {
         Float maxY = center.y + screenHeight / 2;
         Float minX = center.x - screenWidth / 2;
         Float minY = center.y - screenHeight / 2;
-        if (maxX > width) maxX = width.floatValue();
-        if (maxY > height) maxY = height.floatValue();
-        if (minX < 0) minX = 0f;
-        if (minY < 0) minY = 0f;
+//        if (maxX > worldWidth) maxX = worldWidth.floatValue();
+//        if (maxY > worldHeight) maxY = worldHeight.floatValue();
+//        if (minX < 0) minX = 0f;
+//        if (minY < 0) minY = 0f;
         result.getFood().addAll(selectFood(maxX, maxY, minX, minY));
         result.getBloops().addAll(selectBloops(bloop.getId(), maxX, maxY, minX, minY));
         return result;
@@ -92,16 +83,20 @@ public class World {
     private List<Food> selectFood(Float maxX, Float maxY, Float minX, Float minY) {
         List<Food> resultFood = new ArrayList<>();
         food.values().forEach(it -> {
-            PVector loc = it.getLocation();
+            Food copy = it.copy();
+            PVector loc = copy.getLocation();
             if (loc.x > minX && loc.y > minY && loc.x < maxX && loc.y < maxY) {
-                resultFood.add(it);
+                resultFood.add(copy);
             }
         });
         resultFood.forEach(it -> {
             PVector loc = it.getLocation();
-            if (loc.x > screenWidth) loc.x = loc.x - minX;
+            if (loc.x > screenWidth / 2) {
+                loc.x = loc.x - minX;
+            } else {
+                loc.x = maxX - loc.x;
+            }
             if (loc.y > screenHeight) loc.y = loc.y - minY;
-            System.out.println(it.getLocation());
         });
         return resultFood;
     }
@@ -109,16 +104,13 @@ public class World {
     private List<Bloop> selectBloops(Integer bloopId, Float maxX, Float maxY, Float minX, Float minY) {
         List<Bloop> resultBloops = new ArrayList<>();
         for (Bloop it : bloops.values()) {
-            PVector loc = it.getLocation();
-            if (bloopId.equals(it.getId())) {
-                Bloop copy = it.copy();
-                loc = copy.getLocation();
-                loc.x = screenWidth / 2;
-                loc.y = screenHeight / 2;
+            Bloop copy = it.copy();
+            PVector loc = copy.getLocation();
+            if (bloopId.equals(copy.getId())) {
                 resultBloops.add(copy);
             } else {
                 if (loc.x > minX && loc.y > minY && loc.x < maxX && loc.y < maxY) {
-                    resultBloops.add(it);
+                    resultBloops.add(copy);
                 }
             }
         }

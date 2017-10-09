@@ -30,8 +30,6 @@ function draw() {
         });
     }
 
-    // $.post("/move", {worldId: worldId, bloopId: bloopId, x: mouseX, y: mouseY});
-
     if (stompClient.connected) {
         stompClient.send("/thegame/move", {}, JSON.stringify({
             worldId: worldId,
