@@ -15,8 +15,8 @@ public class World {
 
     static final Integer worldWidth = 5000;
     static final Integer worldHeight = 3000;
-    static final Integer screenWidth = 1000;
-    static final Integer screenHeight = 600;
+    static final Integer screenWidth = 1280;
+    static final Integer screenHeight = 720;
 
     public void init() {
         for (int i = 0; i < 1000; i++) {

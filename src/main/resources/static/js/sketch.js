@@ -2,7 +2,7 @@ var stompClient = null;
 var json = null;
 
 function setup() {
-    createCanvas(1000, 600);
+    createCanvas(1280, 720);
     noStroke();
     smooth();
 
