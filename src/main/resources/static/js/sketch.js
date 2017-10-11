@@ -2,9 +2,10 @@ var stompClient = null;
 var json = null;
 
 function setup() {
-    createCanvas(1280, 720);
+    var canvas = createCanvas(1280, 720);
     noStroke();
     smooth();
+    canvas.parent('sketch-holder');
 
     var socket = new SockJS('/thegame-websocket');
     stompClient = Stomp.over(socket);
