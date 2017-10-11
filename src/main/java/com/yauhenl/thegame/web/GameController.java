@@ -7,6 +7,7 @@ import com.yauhenl.thegame.service.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -54,7 +55,7 @@ public class GameController {
     }
 
     @MessageMapping("/move")
-    @SendTo("/topic/data")
+    @SendToUser(destinations = "/topic/data")
     public Data update(String message) {
         JSONObject json = JSONObject.parse(message);
         Integer worldId = json.getInt(worldIdAttribute);

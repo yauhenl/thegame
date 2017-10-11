@@ -9,13 +9,9 @@ function setup() {
 
     var socket = new SockJS('/thegame-websocket');
     stompClient = Stomp.over(socket);
-    stompClient.connect({}, function (frame) {
-        console.log('Connected: ' + frame);
-        stompClient.subscribe('/topic/data', function (data) {
-            var preJson = JSON.parse(data.body);
-            if (preJson.worldId == worldId && preJson.bloopId == bloopId) {
-                json = preJson;
-            }
+    stompClient.connect({}, function () {
+        stompClient.subscribe('/user/topic/data', function (data) {
+            json = JSON.parse(data.body);
         });
     });
 }
