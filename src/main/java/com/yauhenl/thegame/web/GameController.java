@@ -2,7 +2,6 @@ package com.yauhenl.thegame.web;
 
 import com.yauhenl.thegame.objects.Bloop;
 import com.yauhenl.thegame.objects.Data;
-import com.yauhenl.thegame.objects.UserWS;
 import com.yauhenl.thegame.objects.World;
 import com.yauhenl.thegame.service.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,9 +26,6 @@ public class GameController {
 
     @Autowired
     private GameService gameService;
-
-    @Autowired
-    private UserWS userWS;
 
     @GetMapping("/game")
     public String openWorld(@RequestParam Integer id, Model model, HttpSession session) {
@@ -65,12 +61,13 @@ public class GameController {
         Integer bloopId = json.getInt(bloopIdAttribute);
         World world = gameService.getById(worldId);
         if (world != null) {
-            userWS.setWorldId(worldId);
             Bloop bloop = world.getBloopById(bloopId);
             if (bloop != null) {
-                userWS.setBloopId(bloopId);
                 bloop.move(new PVector(json.getInt("x"), json.getInt("y")));
-                return gameService.getData(world, bloop);
+                Data data = gameService.getData(world, bloop);
+                data.setBloopId(bloopId);
+                data.setWorldId(worldId);
+                return data;
             }
         }
         return null;

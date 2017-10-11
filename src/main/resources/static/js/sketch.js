@@ -11,7 +11,10 @@ function setup() {
     stompClient.connect({}, function (frame) {
         console.log('Connected: ' + frame);
         stompClient.subscribe('/topic/data', function (data) {
-            json = JSON.parse(data.body);
+            var preJson = JSON.parse(data.body);
+            if (preJson.worldId == worldId && preJson.bloopId == bloopId) {
+                json = preJson;
+            }
         });
     });
 }
