@@ -43,7 +43,7 @@ public class World {
 
     public Bloop addBloop() {
         lastBloopId++;
-        Bloop result = new Bloop(lastBloopId, new PVector(r.nextInt(worldWidth), r.nextInt(worldHeight)), 35);
+        Bloop result = new Bloop(lastBloopId, new PVector(r.nextInt(worldWidth), r.nextInt(worldHeight)));
         bloops.put(lastBloopId, result);
         return result;
     }

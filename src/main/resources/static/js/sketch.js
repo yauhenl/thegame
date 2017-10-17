@@ -9,6 +9,7 @@ function setup() {
 
     var socket = new SockJS('/thegame-websocket');
     stompClient = Stomp.over(socket);
+    stompClient.debug = null
     stompClient.connect({}, function () {
         stompClient.subscribe('/user/topic/data', function (data) {
             json = JSON.parse(data.body);

@@ -3,9 +3,14 @@ package com.yauhenl.thegame.objects;
 import processing.core.PVector;
 
 public abstract class GameObject {
-    private Integer id;
-    private PVector location;
-    private Integer size;
+    protected Integer id;
+    protected PVector location;
+    protected Integer size;
+
+    GameObject(Integer id, PVector location) {
+        this.id = id;
+        this.location = location;
+    }
 
     GameObject(Integer id, PVector location, Integer size) {
         this.id = id;
