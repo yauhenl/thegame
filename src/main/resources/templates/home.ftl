@@ -1,4 +1,5 @@
-<#include "components/header.ftl">
+<#import "components.ftl" as y>
+<@y.page>
 <a href="/createWorld" role="button" class="btn btn-primary">Create world</a>
 <div class="container">
     <table class="table">
@@ -12,4 +13,4 @@
         </tbody>
     </table>
 </div>
-<#include "components/footer.ftl">
+</@y.page>
