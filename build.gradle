@@ -1,10 +1,27 @@
-plugins {
-    id 'java'
-    id 'org.springframework.boot' version '1.5.7.RELEASE'
+buildscript {
+    ext {
+        springBootVersion = '2.0.0.M5'
+    }
+    repositories {
+        mavenCentral()
+        maven { url 'https://repo.spring.io/libs-milestone' }
+    }
+
+    dependencies {
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
+    }
 }
+
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+sourceCompatibility = 9.0
+targetCompatibility = 9.0
 
 repositories {
     mavenCentral()
+    maven { url 'https://repo.spring.io/libs-milestone' }
 }
 
 dependencies {
@@ -14,5 +31,5 @@ dependencies {
     compile 'org.springframework.boot:spring-boot-starter-actuator'
     compile 'org.springframework.boot:spring-boot-starter-websocket'
     compile 'org.springframework.boot:spring-boot-starter-security'
-    compile 'org.processing:core:3.2.3'
+    compile 'org.processing:core:3.3.5'
 }
